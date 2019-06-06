@@ -1,4 +1,4 @@
-is_java_code      = false
+is_java_code      = true
 git_url           = https://github.com/structbinary/spring3hibernate.git
 git_branch        = master
 project_dir       = .
