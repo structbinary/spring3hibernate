@@ -11,9 +11,18 @@
 		</developerConnection>
 	  <tag>HEAD</tag>
   </scm>
-
-	 <distributionManagement>
    <!-- use the following if you're not using a snapshot version. -->
+    <properties>
+        <dependency.check.report.dir>${project.build.directory}</dependency.check.report.dir>
+<!--         <maven.compiler.source>1.6</maven.compiler.source>
+        <maven.compiler.target>1.6</maven.compiler.target>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding> -->
+<!--         <sonar.host.url>http://localhost:9000/</sonar.host.url> -->
+	 <sonar.cobertura.reportPath>${project.basedir}/target/site/cobertura/coverage.xml</sonar.cobertura.reportPath>
+        <sonar.dependencyCheck.reportPath>${dependency.check.report.dir}/dependency-check-report.xml</sonar.dependencyCheck.reportPath>
+        <sonar.dependencyCheck.htmlReportPath>${dependency.check.report.dir}/dependency-check-report.html</sonar.dependencyCheck.htmlReportPath>
+    </properties>
+	 <distributionManagement>
    <repository>
      <id>central</id>
      <name>central</name>
@@ -31,7 +40,7 @@
 			<plugin>
 				<groupId>org.codehaus.mojo</groupId>
 				<artifactId>findbugs-maven-plugin</artifactId>
-				<version>3.0.1</version>
+				<version>3.0.4</version>
 				<configuration>
 					<!-- Enables analysis which takes more memory but finds more bugs. If 
 						you run out of memory, changes the value of the effort element to 'low'. -->
@@ -42,6 +51,18 @@
 					<xmlOutput>true</xmlOutput>
 				</configuration>
 			</plugin>
+		    <plugin>
+			<groupId>org.owasp</groupId>
+			<artifactId>dependency-check-maven</artifactId>
+			<version>2.1.1</version>
+			<reportSets>
+			    <reportSet>
+				<reports>
+				    <report>aggregate</report>
+				</reports>
+			    </reportSet>
+			</reportSets>
+		    </plugin>
 		</plugins>
 	</reporting>
 
@@ -60,9 +81,14 @@
 				<version>2.14</version>
 			</plugin>
 			<plugin>
+			    <groupId>org.sonarsource.scanner.maven</groupId>
+			    <artifactId>sonar-maven-plugin</artifactId>
+			    <version>3.5.0.1254</version>
+			</plugin>
+			<plugin>
 				<groupId>org.codehaus.mojo</groupId>
 				<artifactId>findbugs-maven-plugin</artifactId>
-				<version>3.0.1</version>
+				<version>3.0.4</version>
 				<configuration>
 					<!-- Enables analysis which takes more memory but finds more bugs. If 
 						you run out of memory, changes the value of the effort element to 'Low'. -->
@@ -152,7 +178,17 @@
 			<artifactId>mockito-all</artifactId>
 			<version>1.9.5</version>
 		</dependency>
-
+	    <dependency>
+	      <groupId>org.apache.struts</groupId>
+	      <artifactId>struts2-core</artifactId>
+	      <version>2.5.10</version>
+	    </dependency>
+	    <dependency>
+	      <groupId>org.owasp</groupId>
+	      <artifactId>dependency-check-maven</artifactId>
+	      <version>2.1.1</version>
+	      <scope>test</scope>
+	    </dependency>
 		<dependency>
 			<groupId>javax.activation</groupId>
 			<artifactId>activation</artifactId>
